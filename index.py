@@ -10,16 +10,18 @@ def preprocessar(texto):
 
 modelo = joblib.load('modelo_sentimentos.pkl')
 vetorizador = joblib.load('vetorizador.pkl')
+le = joblib.load('label_encoder.pkl')
 
 entrada = input("Digite uma frase: ")
 entrada_proc = preprocessar(entrada)
 entrada_vetor = vetorizador.encode([entrada_proc])
 
 resultado = modelo.predict(entrada_vetor)
+sentimento = le.inverse_transform(resultado)[0]
 
-if resultado[0] == 1:
+if sentimento == 1:
     print("Sentimento: Positivo 😊")
-elif resultado[0] == 0:
+elif sentimento == 0:
     print("Sentimento: Negativo 😠")
 else:
     print("Sentimento: Neutro 😐")
